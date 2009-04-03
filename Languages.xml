@@ -1,0 +1,26 @@
+<settings>
+ 
+  <language id="name.grzegorzkazulak.YML">
+    <name>YAML</name>
+    
+    <root-zone>sourcecode.yaml</root-zone>
+    
+    <detectors>
+      <extension casesensitive="false">yml</extension>
+    </detectors>
+    
+    
+    
+  </language>
+  
+  <meta>
+    <name>YML</name>
+    <description>A sugar that fully describes the YML markup</description>
+    <author>grzegorzkazulak</author>
+    <identifier>name.grzegorzkazulak.Sugar.YAML</identifier>
+    <version status="preview">0</version>
+    <download format="git">git://github.com/grzegorzkazulak/yaml.sugar.git</download>
+    <url>http://github.com/grzegorzkazulak/yaml.sugar</url>
+  </meta>
+  
+</settings>

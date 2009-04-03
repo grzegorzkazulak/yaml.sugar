@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<syntax name="sourcecode.yaml">
+    <zones>
+        <include collection="erb"/>
+        <zone name="string.unquoted.block.yaml">
+            <starts-with>
+                <expression>^(\s*)(?:(-)|(?:(-\s*)?(\w+\s*(:))))\s*(\||>)</expression>
+                <capture number="2" name="punctuation.definition.entry.yaml"/>
+                <capture number="3" name="punctuation.definition.entry.yaml"/>
+                <capture number="4" name="entity.name.tag.yaml"/>
+                <capture number="5" name="punctuation.separator.key-value.yaml"/>
+            </starts-with>
+            <ends-with>
+                <expression>^(?!^\1)|^(?=\1(-|\w+\s*:)|#)</expression>
+            </ends-with>
+            <subzones>
+                <include collection="erb"/>
+            </subzones>
+        </zone>
+        <zone name="constant.numeric.yaml">
+            <expression>(?:(?:(-\s*)?(\w+\s*(:)))|(-))\s*((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\s*$</expression>
+            <capture number="1" name="punctuation.definition.entry.yaml"/>
+            <capture number="2" name="entity.name.tag.yaml"/>
+            <capture number="3" name="punctuation.separator.key-value.yaml"/>
+            <capture number="4" name="punctuation.definition.entry.yaml"/>
+        </zone>
+        <zone name="string.unquoted.yaml">
+            <expression>(?:(?:(-\s*)?(\w+\s*(:)))|(-))\s*(?:((")[^"]*("))|((')[^']*('))|([^,{}&amp;#\[\]]+))\s*</expression>
+            <capture number="1" name="punctuation.definition.entry.yaml"/>
+            <capture number="10" name="punctuation.definition.string.end.yaml"/>
+            <capture number="11" name="string.unquoted.yaml"/>
+            <capture number="2" name="entity.name.tag.yaml"/>
+            <capture number="3" name="punctuation.separator.key-value.yaml"/>
+            <capture number="4" name="punctuation.definition.entry.yaml"/>
+            <capture number="5" name="string.quoted.double.yaml"/>
+            <capture number="6" name="punctuation.definition.string.begin.yaml"/>
+            <capture number="7" name="punctuation.definition.string.end.yaml"/>
+            <capture number="8" name="string.quoted.single.yaml"/>
+            <capture number="9" name="punctuation.definition.string.begin.yaml"/>
+        </zone>
+        <zone name="constant.other.date.yaml">
+            <expression>(?:(?:(-\s*)?(\w+\s*(:)))|(-))\s*([0-9]{4}-[0-9]{2}-[0-9]{2})\s*$</expression>
+            <capture number="1" name="punctuation.definition.entry.yaml"/>
+            <capture number="2" name="entity.name.tag.yaml"/>
+            <capture number="3" name="punctuation.separator.key-value.yaml"/>
+            <capture number="4" name="punctuation.definition.entry.yaml"/>
+        </zone>
+        <zone name="meta.tag.yaml">
+            <expression>(\w.*?)(:)\s*((\!\!)omap)?</expression>
+            <capture number="1" name="entity.name.tag.yaml"/>
+            <capture number="2" name="punctuation.separator.key-value.yaml"/>
+            <capture number="3" name="keyword.other.omap.yaml"/>
+            <capture number="4" name="punctuation.definition.keyword.yaml"/>
+        </zone>
+        <zone name="variable.other.yaml">
+            <expression>(\&amp;|\*)\w.*?$</expression>
+            <capture number="1" name="punctuation.definition.variable.yaml"/>
+        </zone>
+        <zone name="string.quoted.double.yaml">
+            <starts-with>
+                <expression>"</expression>
+                <capture number="0" name="punctuation.definition.string.begin.yaml"/>
+            </starts-with>
+            <ends-with>
+                <expression>"</expression>
+                <capture number="0" name="punctuation.definition.string.end.yaml"/>
+            </ends-with>
+            <subzones>
+                <include collection="escaped_char"/>
+                <include collection="erb"/>
+            </subzones>
+        </zone>
+        <zone name="string.quoted.single.yaml">
+            <starts-with>
+                <expression>'</expression>
+                <capture number="0" name="punctuation.definition.string.begin.yaml"/>
+            </starts-with>
+            <ends-with>
+                <expression>'</expression>
+                <capture number="0" name="punctuation.definition.string.end.yaml"/>
+            </ends-with>
+            <subzones>
+                <include collection="escaped_char"/>
+                <include collection="erb"/>
+            </subzones>
+        </zone>
+        <zone name="string.interpolated.yaml">
+            <starts-with>
+                <expression>`</expression>
+                <capture number="0" name="punctuation.definition.string.begin.yaml"/>
+            </starts-with>
+            <ends-with>
+                <expression>`</expression>
+                <capture number="0" name="punctuation.definition.string.end.yaml"/>
+            </ends-with>
+            <subzones>
+                <include collection="escaped_char"/>
+                <include collection="erb"/>
+            </subzones>
+        </zone>
+        <zone name="keyword.operator.merge-key.yaml">
+            <expression>(\&lt;\&lt;): ((\*).*)$</expression>
+            <capture number="1" name="entity.name.tag.yaml"/>
+            <capture number="2" name="keyword.operator.merge-key.yaml"/>
+            <capture number="3" name="punctuation.definition.keyword.yaml"/>
+        </zone>
+        <zone name="comment.line.number-sign.yaml">
+            <expression>(?&lt;!\$)(#)(?!\{).*$\n?</expression>
+            <capture number="1" name="punctuation.definition.comment.yaml"/>
+        </zone>
+        <zone name="keyword.operator.symbol">
+            <expression>-</expression>
+        </zone>
+        <zone name="meta.leading-tabs.yaml">
+            <starts-with>
+                <expression>^(?=\t)</expression>
+            </starts-with>
+            <ends-with>
+                <expression>(?=[^\t])</expression>
+            </ends-with>
+            <subzones>
+                <zone>
+                    <expression>(\t)(\t)?</expression>
+                    <capture number="1" name="meta.odd-tab"/>
+                    <capture number="2" name="meta.even-tab"/>
+                </zone>
+            </subzones>
+        </zone>
+    </zones>
+    <library>
+        <collection name="erb">
+            <zone name="sourcecode.rubyonrails.embedded.html">
+                <starts-with>
+                    <expression>&lt;%+(?!>)=?</expression>
+                    <capture number="0" name="punctuation.section.embedded.ruby"/>
+                </starts-with>
+                <ends-with>
+                    <expression>%></expression>
+                    <capture number="0" name="punctuation.section.embedded.ruby"/>
+                </ends-with>
+                <subzones>
+                    <zone name="comment.line.number-sign.ruby">
+                        <expression>(#).*?(?=%>)</expression>
+                        <capture number="1" name="punctuation.definition.comment.ruby"/>
+                    </zone>
+                    <include syntax="sourcecode.rubyonrails"/>
+                </subzones>
+            </zone>
+        </collection>
+        <collection name="escaped_char">
+            <zone name="constant.character.escape.yaml">
+                <expression>\\.</expression>
+            </zone>
+        </collection>
+    </library>
+</syntax>
