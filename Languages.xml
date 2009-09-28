@@ -7,6 +7,7 @@
     
     <detectors>
       <extension casesensitive="false">yml</extension>
+			<extension casesensitive="false">yaml</extension>
     </detectors>
     
     
